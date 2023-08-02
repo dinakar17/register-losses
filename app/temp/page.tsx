@@ -170,8 +170,8 @@ const App: React.FC = () => {
           <ButtonComponent
             key={name}
             name={name}
-            onClick={() => handleButtonClick(name)}
-            active={activeButtons.includes(name)}
+            // onClick={() => handleButtonClick(name)}
+            // active={activeButtons.includes(name)}
           />
         ))}
       </div>
