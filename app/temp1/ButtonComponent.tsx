@@ -64,7 +64,7 @@ const ButtonComponent: React.FC<ButtonProps> = ({
         : null;
 
   return (
-    <div className="my-4">
+    <div className="my-2">
       <button
         onClick={onClick}
         className={`px-4 py-2 rounded-full focus:outline-none ${

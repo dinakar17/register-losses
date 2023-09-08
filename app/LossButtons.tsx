@@ -11,9 +11,13 @@ type TimerData = {
   duration: number | null;
 };
 
-const App: React.FC = () => {
+interface LossButtonsProps {
+  timerData: TimerData[];
+  setTimerData: React.Dispatch<React.SetStateAction<TimerData[]>>;
+}
+
+const LossButtons = ({ timerData, setTimerData }: LossButtonsProps) => {
   const [activeButtons, setActiveButtons] = useState<string[]>([]);
-  const [timerData, setTimerData] = useState<TimerData[]>([]);
   const [active, setActive] = useState(false);
 
   // Modal control state
@@ -21,14 +25,22 @@ const App: React.FC = () => {
   const [buttonToConfirm, setButtonToConfirm] = useState<string | null>(null);
 
   const buttons = [
-    "Button1",
-    "Button2",
-    "Button3",
-    "Button4",
-    "Button5",
-    "Button6",
-    "Button7",
-    "Button8",
+    "EQUIPMENT FAILURE",
+    "MINOR STOPPAGES",
+    "MOTION LOSS",
+    "YIELD LOSS",
+    "SETUP/ADJ LOSS",
+    "SPEED LOSS",
+    "LINE ORG LOSS",
+    "ENERGY LOSS",
+    "TOOL CHANGE LOSS",
+    "DEFECT LOSS",
+    "LOGISTIC LOSS",
+    "START UP LOSS",
+    "SHUT DOWN LOSS",
+    "MEASURE/ADJ LOSS",
+    "MANAGEMENT LOSS",
+    "DIE/JIG/TOOL LOSS",
   ];
 
   const handleButtonClick = (name: string) => {
@@ -95,22 +107,24 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="p-6">
-      <h1 className="mb-4 text-2xl">Select loss criteria</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+    <div className="">
+      <h1 className="mb-4 text-2xl">Select Loss Criteria</h1>
+      <div className="grid grid-cols-1 sm:grid-cols-4 lg:grid-cols-4 gap-4">
         {buttons.map((name) => (
-          <ButtonComponent
-            key={name}
-            name={name}
-            startTime={
-              timerData.find((timer) => timer.name === name)?.startTime || null
-            }
-            endTime={
-              timerData.find((timer) => timer.name === name)?.endTime || null
-            }
-            onClick={() => handleButtonClick(name)}
-            isActive={activeButtons.includes(name)}
-          />
+          <div className="w-full" key={name}>
+            <ButtonComponent
+              name={name}
+              startTime={
+                timerData.find((timer) => timer.name === name)?.startTime ||
+                null
+              }
+              endTime={
+                timerData.find((timer) => timer.name === name)?.endTime || null
+              }
+              onClick={() => handleButtonClick(name)}
+              isActive={activeButtons.includes(name)}
+            />
+          </div>
         ))}
       </div>
       <Modal
@@ -159,38 +173,9 @@ const App: React.FC = () => {
           </button>
         </div>
       </Modal>
-      {/* Todo: Extract Table to another component */}
-      <div className="mt-8">
-        <table className="w-full table-auto">
-          <thead>
-            <tr>
-              <th className="px-4 py-2">Name</th>
-              <th className="px-4 py-2">Start Time</th>
-              <th className="px-4 py-2">End Time</th>
-              <th className="px-4 py-2">Duration</th>
-            </tr>
-          </thead>
-          <tbody>
-            {timerData.map(({ name, startTime, endTime, duration }) => (
-              <tr key={name}>
-                <td className="px-4 py-2">{name}</td>
-                <td className="px-4 py-2">
-                  {startTime?.toLocaleTimeString() || "-"}
-                </td>
-                <td className="px-4 py-2">
-                  {endTime?.toLocaleTimeString() || "-"}
-                </td>
-                <td className="px-4 py-2">
-                  {duration ? `${duration} seconds` : "-"}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
       <Toaster />
     </div>
   );
 };
 
-export default App;
+export default LossButtons;
